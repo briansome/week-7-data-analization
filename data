@@ -1,0 +1,186 @@
+import pandas as pd
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Apply seaborn theme for enhanced aesthetics across all plots
+sns.set_theme()
+
+# --- Data Loading with Error Handling ---
+# For the Iris dataset, direct loading from sklearn is robust.
+# However, to demonstrate robust file handling for general CSV files,
+# a hypothetical example using pd.read_csv is provided.
+
+# Example of robust CSV file loading using try-except
+def load_csv_with_error_handling(filepath):
+    """
+    Loads a CSV file into a pandas DataFrame with error handling for FileNotFoundError.
+    """
+    try:
+        df = pd.read_csv(filepath)
+        print(f"Successfully loaded data from {filepath}")
+        return df
+    except FileNotFoundError:
+        print(f"Error: The file '{filepath}' was not found. Please check the path.")
+        return None
+    except pd.errors.EmptyDataError:
+        print(f"Error: The file '{filepath}' is empty.")
+        return None
+    except pd.errors.ParserError:
+        print(f"Error: Could not parse the file '{filepath}'. Check its format.")
+        return None
+    except Exception as e:
+        print(f"An unexpected error occurred while loading {filepath}: {e}")
+        return None
+
+# Load the Iris dataset using sklearn (as it's a built-in dataset)
+try:
+    iris_data = load_iris()
+    # Create a DataFrame from the iris data and feature names
+    iris_df = pd.DataFrame(data=iris_data['data'], columns=iris_data['feature_names'])
+    # Add the target variable (species)
+    iris_df['species_code'] = iris_data['target']
+    # Map numerical species codes to descriptive names for better readability
+    iris_df['species'] = iris_df['species_code'].apply(lambda x: iris_data['target_names'][x])
+    print("Iris dataset loaded successfully from sklearn.")
+except ImportError:
+    print("Error: scikit-learn not found. Please install it to load the Iris dataset.")
+    iris_df = None
+except Exception as e:
+    print(f"An error occurred while loading the Iris dataset: {e}")
+    iris_df = None
+
+# Proceed only if the DataFrame was loaded successfully
+if iris_df is not None:
+    print("\nFirst 5 rows of the dataset:")
+    print(iris_df.head())
+import pandas as pd
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Apply seaborn theme for enhanced aesthetics across all plots
+sns.set_theme()
+
+# --- Data Loading with Error Handling ---
+# For the Iris dataset, direct loading from sklearn is robust.
+# However, to demonstrate robust file handling for general CSV files,
+# a hypothetical example using pd.read_csv is provided.
+
+# Example of robust CSV file loading using try-except
+def load_csv_with_error_handling(filepath):
+    """
+    Loads a CSV file into a pandas DataFrame with error handling for FileNotFoundError.
+    """
+    try:
+        df = pd.read_csv(filepath)
+        print(f"Successfully loaded data from {filepath}")
+        return df
+    except FileNotFoundError:
+        print(f"Error: The file '{filepath}' was not found. Please check the path.")
+        return None
+    except pd.errors.EmptyDataError:
+        print(f"Error: The file '{filepath}' is empty.")
+        return None
+    except pd.errors.ParserError:
+        print(f"Error: Could not parse the file '{filepath}'. Check its format.")
+        return None
+    except Exception as e:
+        print(f"An unexpected error occurred while loading {filepath}: {e}")
+        return None
+
+# Load the Iris dataset using sklearn (as it's a built-in dataset)
+try:
+    iris_data = load_iris()
+    # Create a DataFrame from the iris data and feature names
+    iris_df = pd.DataFrame(data=iris_data['data'], columns=iris_data['feature_names'])
+    # Add the target variable (species)
+    iris_df['species_code'] = iris_data['target']
+    # Map numerical species codes to descriptive names for better readability
+    iris_df['species'] = iris_df['species_code'].apply(lambda x: iris_data['target_names'][x])
+    print("Iris dataset loaded successfully from sklearn.")
+except ImportError:
+    print("Error: scikit-learn not found. Please install it to load the Iris dataset.")
+    iris_df = None
+except Exception as e:
+    print(f"An error occurred while loading the Iris dataset: {e}")
+    iris_df = None
+
+if iris_df is not None:
+    print("\nFirst 5 rows of the dataset:")
+    print(iris_df.head())
+if iris_df is not None:
+    print("\nMissing values before cleaning:")
+    print(iris_df.isnull().sum())
+if iris_df is not None:
+    print("\nDescriptive Statistics of Numerical Features:")
+    print(iris_df.describe())
+
+    # Presenting the descriptive statistics in a structured table
+    print("\nTable 1: Descriptive Statistics of Iris Dataset Features")
+    print(iris_df.describe().to_markdown(numalign="left", stralign="left"))
+if iris_df is not None:
+    print("\nAverage Botanical Measurements by Iris Species:")
+    grouped_means = iris_df.groupby('species')[['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)']].mean()
+    print(grouped_means)
+
+    # Presenting the grouped statistics in a structured table
+    print("\nTable 2: Average Botanical Measurements by Iris Species")
+    print(grouped_means.to_markdown(numalign="left", stralign="left"))
+if iris_df is not None:
+    # --- Line Chart (Hypothetical Example as Iris dataset lacks time-series data) ---
+    print("\n--- Line Chart (Hypothetical Time Series) ---")
+    # Create hypothetical time-series data for demonstration
+    # In a real scenario, you would load a dataset with a 'Date' column
+    # and ensure it's parsed as datetime objects (e.g., pd.read_csv(..., parse_dates=)).[16]
+    
+    # Generate dummy data for a hypothetical time series
+    np.random.seed(42)
+    dates = pd.date_range(start='2023-01-01', periods=100, freq='D')
+    sales = np.random.randint(100, 200, size=100) + np.sin(np.linspace(0, 10, 100)) * 50
+
+    hypothetical_df = pd.DataFrame({'Date': dates, 'Sales': sales})
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(hypothetical_df, hypothetical_df, color='purple', linestyle='-', marker='o', markersize=4, label='Daily Sales')
+    plt.title('Hypothetical Daily Sales Trend Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Sales Volume')
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+if iris_df is not None:
+    print("\n--- Bar Chart: Average Petal Length by Species ---")
+    # Use the grouped_means DataFrame from Task 2.2
+    plt.figure(figsize=(8, 6))
+    plt.bar(grouped_means.index, grouped_means['petal length (cm)'], color=['skyblue', 'lightcoral', 'lightgreen'])
+    plt.title('Average Petal Length of Iris Species')
+    plt.xlabel('Iris Species')
+    plt.ylabel('Average Petal Length (cm)')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.show()
+if iris_df is not None:
+    print("\n--- Histogram: Distribution of Petal Length ---")
+    plt.figure(figsize=(10, 6))
+    plt.hist(iris_df['petal length (cm)'], bins=30, edgecolor='black', alpha=0.7)
+    plt.title('Distribution of Petal Length in Iris Dataset')
+    plt.xlabel('Petal Length (cm)')
+    plt.ylabel('Frequency')
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.show()
+if iris_df is not None:
+    print("\n--- Scatter Plot: Sepal Length vs. Petal Length by Species ---")
+    plt.figure(figsize=(10, 7))
+    sns.scatterplot(data=iris_df, x='sepal length (cm)', y='petal length (cm)', hue='species', s=100, alpha=0.8)
+    plt.title('Sepal Length vs. Petal Length by Iris Species')
+    plt.xlabel('Sepal Length (cm)')
+    plt.ylabel('Petal Length (cm)')
+    plt.legend(title='Species')
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
